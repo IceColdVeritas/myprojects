@@ -40,7 +40,7 @@ def publish_csv_data():
                 )
                 print(f"Sent message: {message}")
 
-                # time.sleep(random())  # Introduce a random time delay between 0 and 1 second
+                time.sleep(random())  # Introduce a random time delay between 0 and 1 second
 
         connection.close()
     except pika.exceptions.AMQPConnectionError:
