@@ -1,0 +1,12 @@
+# General
+.DS_Store
+.idea/
+
+#IDE
+.vscode/
+
+#Env
+.venv
+venv/
+ENV/
+.env

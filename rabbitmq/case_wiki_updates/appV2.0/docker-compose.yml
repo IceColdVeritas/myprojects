@@ -1,0 +1,40 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.9.5-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  publisher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    links:
+      - rabbitmq
+    volumes:
+      - ./${CSV_FILE_NAME}:/app/${CSV_FILE_NAME}:ro
+    environment:
+      - CSV_FILE_PATH=/app/${CSV_FILE_NAME}
+      - RABBITMQ_HOST=rabbitmq
+
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - publisher
+    environment:
+      - CSV_FILE_PATH=${CSV_FILE_PATH}
+      - OUTPUT_FILE_PATH=/app/output/output.csv
+      - RABBITMQ_HOST=rabbitmq
+    links:
+      - rabbitmq
+    volumes:
+      - ./output:/app/output
+    command: sh -c "python con.py && touch ${OUTPUT_FILE_PATH} && docker-compose stop"
