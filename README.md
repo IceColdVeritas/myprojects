@@ -52,7 +52,13 @@ To run both the Publisher and Consumer applications using Docker Compose, follow
 ```bash
 export CSV_FILE_PATH=/path/to/your/csv_file.csv
 ```
-5. Run the following command to start the Publisher and Consumer applications along with the RabbitMQ server:
+5. Do the same for the environment variable CSV_FILE_NAME. For example:
+
+```bash
+export CSV_FILE_NAME=your_file_name.csv
+```
+
+6. Run the following command to start the Publisher and Consumer applications along with the RabbitMQ server:
 
 ```bash
 docker-compose up
